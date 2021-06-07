@@ -16,7 +16,7 @@ namespace JetBrains.ReSharper.Plugins.SpringTests
 
 
     [ZoneDefinition]
-    class ISpringTestsZone : ITestsEnvZone
+    class ISpringTestsZone : ITestsZone
     {
 
     }

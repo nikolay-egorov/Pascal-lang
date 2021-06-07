@@ -15,5 +15,5 @@
     <SignAssembly>false</SignAssembly>    
   </PropertyGroup>
 
-  <Import Project="RiderSdkPackageVersion.props" />
+<!--  <Import Project="RiderSdkPackageVersion.props" />-->
 </Project>
