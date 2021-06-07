@@ -6,7 +6,7 @@ namespace JetBrains.ReSharper.Plugins.Spring
     [LanguageDefinition(Name)]
     public class SpringLanguage : KnownLanguage
     {
-        public new const string Name = "Spring";
+        public new const string Name = "Pascal";
     
         public new static SpringLanguage Instance { get; private set; }
 

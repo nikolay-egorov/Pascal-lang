@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Antlr4.Runtime;
 using ICSharpCode.NRefactory.CSharp;
 using JetBrains.Application.Settings;
 using JetBrains.DataFlow;
@@ -23,6 +24,21 @@ using JetBrains.ReSharper.Psi.TreeBuilder;
 using JetBrains.Text;
 
 namespace JetBrains.ReSharper.Plugins.Spring {
+    internal class SyntaxErrorListener : IAntlrErrorListener<IToken> {
+        private readonly PsiBuilder myBuilder;
+
+        public SyntaxErrorListener(PsiBuilder myBuilder) {
+            this.myBuilder = myBuilder;
+        }
+
+        public void SyntaxError(IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine,
+            string msg,
+            RecognitionException e) {
+            myBuilder.Error($"Syntax error on {line}:{charPositionInLine} is: {msg}");
+        }
+    }
+
+
     internal class SpringParser : IParser {
         private readonly ILexer myLexer;
 
@@ -34,9 +50,12 @@ namespace JetBrains.ReSharper.Plugins.Spring {
             using (var def = Lifetimes.Define()) {
                 var builder = new PsiBuilder(myLexer, SpringFileNodeType.Instance, new TokenFactory(), def.Lifetime);
                 var fileMark = builder.Mark();
-
-                ParseBlock(builder);
-
+                var allLexems = new MyLexer(new AntlrInputStream(myLexer.Buffer.GetText()));
+                var tokenStream = new BufferedTokenStream(allLexems);
+                var customParser = new MyParser(tokenStream);
+                customParser.AddErrorListener(new SyntaxErrorListener(builder));
+                customParser.fileNode();
+                
                 builder.Done(fileMark, SpringFileNodeType.Instance, null);
                 var file = (IFile) builder.BuildTree();
                 return file;

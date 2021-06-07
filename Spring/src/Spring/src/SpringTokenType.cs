@@ -1,10 +1,12 @@
 using System.Text;
+using JetBrains.ReSharper.Feature.Services.Resources;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Text;
 using JetBrains.Util;
+using Mono.CSharp;
 
 namespace JetBrains.ReSharper.Plugins.Spring {
     class SpringTokenType : TokenNodeType {
@@ -21,13 +23,17 @@ namespace JetBrains.ReSharper.Plugins.Spring {
             return new SpringToken(this, buffer.GetText(myRange));
         }
 
-        public override bool IsWhitespace { get; }
-        public override bool IsComment { get; }
-        public override bool IsStringLiteral { get; }
-        public override bool IsConstantLiteral { get; }
-        public override bool IsIdentifier { get; }
+        public override bool IsWhitespace => base.Index == MyLexer.WS;
+
+        public override bool IsComment => base.Index == MyLexer.SINGLE_COMMENT
+                                          || base.Index == MyLexer.COMMENT_1 ||
+                                          base.Index == MyLexer.COMMENT_2;
+
+        public override bool IsStringLiteral => base.Index == MyLexer.STRING;
+        public override bool IsConstantLiteral => base.Index == MyLexer.NUM_INT;
+        public override bool IsIdentifier => base.Index == MyLexer.IDENT;
         public override bool IsKeyword { get; }
-        public override string TokenRepresentation { get; }
+        public override string TokenRepresentation => ToString();
     }
 
 

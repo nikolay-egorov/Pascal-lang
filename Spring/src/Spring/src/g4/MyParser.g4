@@ -1,6 +1,6 @@
-parser grammar Parser;
+parser grammar MyParser;
 
-options { tokenVocab = Lexer; }
+options { tokenVocab = MyLexer; }
 
 tokens {
   PROC_CALL,
@@ -32,7 +32,6 @@ unsignedReal
 // file structure 
 fileNode : compoundStatement? EOF
     ; 
-    
 
 expression
     : simpleExpression
