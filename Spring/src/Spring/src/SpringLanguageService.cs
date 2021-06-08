@@ -72,7 +72,7 @@ namespace JetBrains.ReSharper.Plugins.Spring {
             }
 
             public void Advance() {
-                if (tokenPivot.AsToken.TokenIndex == MyLexer.Eof || myLexer.HitEOF) {
+                if (myLexer.HitEOF) {
                     tokenPivot = null;
                     return;
                 }
