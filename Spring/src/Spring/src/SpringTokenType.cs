@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Text;
 using Antlr4.Runtime;
+using JetBrains.Lifetimes;
 using JetBrains.ReSharper.Feature.Services.Resources;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
@@ -14,6 +16,16 @@ namespace JetBrains.ReSharper.Plugins.Spring {
         public static SpringTokenType NUMBER = new SpringTokenType("NUMBER", 1);
         public static SpringTokenType STRING = new SpringTokenType("STRING", 2);
         public static SpringTokenType BAD_CHARACTER = new SpringTokenType("BAD_CHARACTER", 3);
+
+        private static HashSet<int> myKeywords = new HashSet<int>() {
+            MyLexer.DO, MyLexer.END, MyLexer.THEN, MyLexer.IF, MyLexer.ELSE, MyLexer.WITH, MyLexer.BEGIN,
+            MyLexer.AND, MyLexer.OR, MyLexer.NOT, MyLexer.XOR,  MyLexer.LSHIFT2, MyLexer.RSHIFT2,
+            MyLexer.MULT, MyLexer.PLUS, MyLexer.MINUS, MyLexer.SLASH, MyLexer.MOD,
+            MyLexer.PASS, MyLexer.LABEL, MyLexer.OF, MyLexer.SET, MyLexer.AT,
+            MyLexer.CASE, MyLexer.IN, MyLexer.INTEGER, MyLexer.STRING, MyLexer.UNTIL, MyLexer.DOWNTO, MyLexer.WITH,
+            MyLexer.GOTO, MyLexer.NIL, MyLexer.TO, MyLexer.FORWARD, MyLexer.FOR, MyLexer.WHILE, MyLexer.REPEAT,
+        };
+        
         public SpringTokenType(string s, int index) : base(s, index)
         {
         }
@@ -29,10 +41,10 @@ namespace JetBrains.ReSharper.Plugins.Spring {
                                           || base.Index == MyLexer.COMMENT_1 ||
                                           base.Index == MyLexer.COMMENT_2;
 
-        public override bool IsStringLiteral => base.Index == MyLexer.STRING;
+        public override bool IsStringLiteral => base.Index == MyLexer.STRING_LITERAL;
         public override bool IsConstantLiteral => base.Index == MyLexer.NUM_INT;
         public override bool IsIdentifier => base.Index == MyLexer.IDENT;
-        public override bool IsKeyword { get; }
+        public override bool IsKeyword => myKeywords.Contains(base.Index);
         public override string TokenRepresentation => ToString();
     }
 

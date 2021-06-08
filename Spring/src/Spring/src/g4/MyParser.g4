@@ -3,7 +3,6 @@ parser grammar MyParser;
 options { tokenVocab = MyLexer; }
 
 tokens {
-  PROC_CALL,
   BAD_CHARACTER
 }
  
@@ -107,10 +106,6 @@ structuredStatement
     | withStatement
     ;
 
-
-callPart 
-   : (PROC_CALL identifier parameterList?)
-   ;
 
 gotoStatement
     : GOTO label

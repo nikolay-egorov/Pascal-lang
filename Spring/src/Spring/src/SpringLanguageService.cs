@@ -49,7 +49,6 @@ namespace JetBrains.ReSharper.Plugins.Spring {
 
             public CustomLexer(Lexer myLexer) {
                 this.myLexer = myLexer;
-                // Advance();
                 tokenPivot = null;
             }
 
@@ -61,13 +60,11 @@ namespace JetBrains.ReSharper.Plugins.Spring {
             }
 
             public void Start() {
-                if (tokenPivot == null) {
-                    if (!myLexer.HitEOF) {
-                        Advance();
-                    }
-                }
-                // if (tokenPivot.FirstChild != null && !myLexer.HitEOF) {
-                    // Advance();
+                Advance();
+                // if (tokenPivot == null) {
+                //     if (!myLexer.HitEOF) {
+                //         Advance();
+                //     }
                 // }
             }
 
@@ -83,11 +80,13 @@ namespace JetBrains.ReSharper.Plugins.Spring {
                 var nextTokenType = myLexer.Vocabulary.GetDisplayName(nextTypeAsInt);
 
                 var springTokenType = new SpringTokenType(nextTokenType, nextTypeAsInt);
-                tokenPivot = new SpringToken(springTokenType, nextToken.Text);
+                tokenPivot = new SpringToken(springTokenType, nextToken.Text) {
+                    AsToken = nextToken
+                };
             }
 
             public object CurrentPosition { get; set; }
-            public TokenNodeType TokenType { get; }
+            public TokenNodeType TokenType => tokenPivot?.GetTokenType();
             public int TokenStart => tokenPivot.AsToken.StartIndex;
             public int TokenEnd => tokenPivot.AsToken.StopIndex + 1;
             public IBuffer Buffer { get; }

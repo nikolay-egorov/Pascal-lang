@@ -222,16 +222,6 @@ public interface IMyParserListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitStructuredStatement([NotNull] MyParser.StructuredStatementContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.callPart"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCallPart([NotNull] MyParser.CallPartContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.callPart"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCallPart([NotNull] MyParser.CallPartContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="MyParser.gotoStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

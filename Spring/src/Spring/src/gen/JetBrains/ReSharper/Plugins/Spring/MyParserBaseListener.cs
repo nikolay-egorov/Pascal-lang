@@ -265,18 +265,6 @@ public partial class MyParserBaseListener : IMyParserListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitStructuredStatement([NotNull] MyParser.StructuredStatementContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.callPart"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterCallPart([NotNull] MyParser.CallPartContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.callPart"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitCallPart([NotNull] MyParser.CallPartContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="MyParser.gotoStatement"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

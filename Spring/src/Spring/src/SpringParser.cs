@@ -33,34 +33,49 @@ namespace JetBrains.ReSharper.Plugins.Spring {
 
         public void SyntaxError(TextWriter output, IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine,
             string msg, RecognitionException e) {
-            myBuilder.Error($"Syntax error on {line}:{charPositionInLine} is: {msg}");
+            myBuilder.Error($"Syntax error on {line}:{charPositionInLine}, token {offendingSymbol}, as: {msg}");
         }
     }
 
 
     internal class ParsingListener : IParseTreeListener {
         private readonly PsiBuilder myBuilder;
-        private readonly List<int> myMarks;
+        private readonly LinkedList<int> myMarks;
 
-        public ParsingListener(PsiBuilder myBuilder, List<int> myMarks) {
+        public ParsingListener(PsiBuilder myBuilder, LinkedList<int> myMarks) {
             this.myBuilder = myBuilder;
             this.myMarks = myMarks;
         }
 
+        private void tryConsume() {
+            while (!myBuilder.Eof()) {
+                var nextToken = myBuilder.AdvanceLexer();
+                if (nextToken.IsComment || nextToken.IsWhitespace) {
+                    continue;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+
         public void VisitTerminal(ITerminalNode node) {
-            throw new NotImplementedException();
+            tryConsume();
         }
 
         public void VisitErrorNode(IErrorNode node) {
-            throw new NotImplementedException();
+            tryConsume();
         }
 
         public void EnterEveryRule(ParserRuleContext ctx) {
-            throw new NotImplementedException();
+            var currMark = myBuilder.Mark();
+            myMarks.AddFirst(currMark);
         }
 
         public void ExitEveryRule(ParserRuleContext ctx) {
-            throw new NotImplementedException();
+            var prevMark = myMarks.First;
+            myMarks.RemoveFirst();
+            myBuilder.Done(prevMark.Value, SpringCompositeNodeType.BLOCK, null);
         }
     }
 
@@ -80,6 +95,7 @@ namespace JetBrains.ReSharper.Plugins.Spring {
                 var tokenStream = new BufferedTokenStream(allLexems);
                 var customParser = new MyParser(tokenStream);
                 customParser.AddErrorListener(new SyntaxErrorListener(builder));
+                customParser.AddParseListener(new ParsingListener(builder, new LinkedList<int>()));
                 customParser.fileNode();
                 
                 builder.Done(fileMark, SpringFileNodeType.Instance, null);

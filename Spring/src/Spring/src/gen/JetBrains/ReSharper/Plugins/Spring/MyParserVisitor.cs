@@ -147,12 +147,6 @@ public interface IMyParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStructuredStatement([NotNull] MyParser.StructuredStatementContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="MyParser.callPart"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitCallPart([NotNull] MyParser.CallPartContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="MyParser.gotoStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
