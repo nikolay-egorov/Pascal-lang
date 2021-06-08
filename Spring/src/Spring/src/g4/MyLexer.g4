@@ -45,7 +45,8 @@ NIL :  'nil' ;
 NOT :  'not';
 OF  :  'of';
 OR :  'or' ;
-PACKED :   'packed' ;
+XOR : 'xor';
+PACKED : 'packed' ;
 PROCEDURE  :  'procedure';
 PROGRAM  :  'program';
 REAL :  'real';
@@ -63,7 +64,7 @@ UNIT :  'unit';
 INTERFACE :  'interface';
 USES :  'uses' ;
 STRING  :   'string' ;
-
+PASS : 'pass';
   
 PLUS : '+';
 MINUS : '-';
@@ -73,9 +74,13 @@ ASSIGN : ':=';
 COMMA : ',';
 SEMI : ';';
 COLON : ':' ;
-EQUAL :'=' ;
+LSHIFT : '<<';
+RSHIFT : '>>';
+LSHIFT2 : 'shl';
+RSHIFT2 : 'shr';
+EQUAL : '=' ;
 NOT_EQUAL : '<>';
-LT :'<';
+LT : '<';
 LE : '<=' ;
 GE : '>=' ;
 GT  : '>' ;
@@ -91,6 +96,9 @@ DOT : '.' ;
 DOTDOT : '..';
 LCURLY  : '{' ;
 RCURLY : '}' ;  
+STRING_LITERAL
+  : '\'' ('\'\'' | ~('\''))* '\''   
+  ;
 //BAD_CHARACTER: .;
 
 IDENT  :  ('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*   
@@ -155,7 +163,7 @@ BIN_NUM
 
 fragment
 EXPONENT
-  :  ('e') ('+'|'-')? DEC_NUM+
+  :  ('e' | 'E') ('+'|'-')? DEC_NUM+
   ;
 
 fragment 

@@ -21,7 +21,6 @@
   <ItemGroup>
     <Folder Include="src\gen" />
     <Folder Include="src\gen\JetBrains\ReSharper\Plugins\Spring" />
-    <Folder Include="src\psi" />
   </ItemGroup>
   <Import Project="$(DotNetSdkPath)\Build\SubplatformReference.Psi.Features_test_Framework.Props" Condition="Exists('$(DotNetSdkPath)\Build\SubplatformReference.Psi.Features_test_Framework.Props')" />
 </Project>

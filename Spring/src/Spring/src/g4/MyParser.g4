@@ -12,7 +12,8 @@ identifier
     ;
 
 label
-    : unsignedInteger
+    : identifier 
+    | unsignedInteger
     ;
 
 unsignedNumber
@@ -49,8 +50,8 @@ term
 
 factor
     : variable
-    | LPAREN expression RPAREN
     | functionDesignator
+    | LPAREN expression RPAREN
     | unsignedConstant
     | set
     | NOT factor
@@ -67,7 +68,7 @@ setContainer
 
 
 functionDesignator
-    : identifier LPAREN parameterList RPAREN
+    : identifier WS? LPAREN parameterList? RPAREN
     ;
 
 
@@ -107,10 +108,6 @@ structuredStatement
     ;
 
 
-procedureStatement
-    : id=identifier ( LPAREN args=parameterList RPAREN )? 
-    ;
-
 callPart 
    : (PROC_CALL identifier parameterList?)
    ;
@@ -126,14 +123,27 @@ emptyStatement
 
 simpleStatement
     : assignmentStatement
-    | procedureStatement
+    | functionDesignator
+    | labeledStatement
     | gotoStatement
+    | identifier
+    | PASS 
     | emptyStatement
     ;
 
+labeledStatement 
+    : LABEL label ( COMMA label )* 
+    ;
 
 assignmentStatement
-    : variable ASSIGN expression
+    : variable ((assignmentVariants '=') | ASSIGN) expression
+    ;
+
+assignmentVariants
+    : PLUS
+    | MINUS 
+    | MULT 
+    | SLASH
     ;
 
 variable
