@@ -84,9 +84,8 @@ actualParameter
 
 // statements     
 compoundStatement
-    : BEGIN
-    statements
-      END
+    : BEGIN statement (SEMI statement)* SEMI? END
+//    : BEGIN statements SEMI? END
     ;
 
 statement
