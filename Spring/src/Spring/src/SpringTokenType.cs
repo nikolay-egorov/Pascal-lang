@@ -1,4 +1,5 @@
 using System.Text;
+using Antlr4.Runtime;
 using JetBrains.ReSharper.Feature.Services.Resources;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
@@ -44,7 +45,6 @@ namespace JetBrains.ReSharper.Plugins.Spring {
             this.myText = myText;
         }
 
-
         public override int GetTextLength() {
             return myText.Length;
         }
@@ -67,5 +67,7 @@ namespace JetBrains.ReSharper.Plugins.Spring {
         public TokenNodeType GetTokenType() {
             return (TokenNodeType) this.NodeType;
         }
+        
+        public IToken AsToken { get; set; }
     }
 }
