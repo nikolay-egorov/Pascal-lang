@@ -6,11 +6,11 @@ namespace JetBrains.ReSharper.Plugins.Spring
     [ProjectFileTypeDefinition(Name)]
     public class SpringProjectFileType : KnownProjectFileType
     {
-        public new const string Name = "Spring";
+        public new const string Name = "Pascal";
 
         public new static SpringProjectFileType Instance { get; private set; }
 
-        private SpringProjectFileType() : base(Name, "Spring", new[] {Spring_EXTENSION})
+        private SpringProjectFileType() : base(Name, "Pascal", new[] {Spring_EXTENSION})
         {
         }
 
@@ -27,6 +27,6 @@ namespace JetBrains.ReSharper.Plugins.Spring
         {
         }
 
-        public const string Spring_EXTENSION = ".Spring";
+        public const string Spring_EXTENSION = ".pp";
     }
 }
