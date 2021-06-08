@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+using Antlr4.Runtime.Misc;
 using JetBrains.ReSharper.Psi;
 
 namespace JetBrains.ReSharper.Plugins.Spring

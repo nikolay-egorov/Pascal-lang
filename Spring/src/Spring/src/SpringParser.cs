@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Antlr4.Runtime;
-using ICSharpCode.NRefactory.CSharp;
+using Antlr4.Runtime.Tree;
 using JetBrains.Application.Settings;
 using JetBrains.DataFlow;
 using JetBrains.DocumentModel;
-// using JetBrains.Lifetimes;
+using JetBrains.Lifetimes;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Daemon.CSharp.Errors;
 using JetBrains.ReSharper.Feature.Services.Daemon;
@@ -31,10 +31,36 @@ namespace JetBrains.ReSharper.Plugins.Spring {
             this.myBuilder = myBuilder;
         }
 
-        public void SyntaxError(IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine,
-            string msg,
-            RecognitionException e) {
+        public void SyntaxError(TextWriter output, IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine,
+            string msg, RecognitionException e) {
             myBuilder.Error($"Syntax error on {line}:{charPositionInLine} is: {msg}");
+        }
+    }
+
+
+    internal class ParsingListener : IParseTreeListener {
+        private readonly PsiBuilder myBuilder;
+        private readonly List<int> myMarks;
+
+        public ParsingListener(PsiBuilder myBuilder, List<int> myMarks) {
+            this.myBuilder = myBuilder;
+            this.myMarks = myMarks;
+        }
+
+        public void VisitTerminal(ITerminalNode node) {
+            throw new NotImplementedException();
+        }
+
+        public void VisitErrorNode(IErrorNode node) {
+            throw new NotImplementedException();
+        }
+
+        public void EnterEveryRule(ParserRuleContext ctx) {
+            throw new NotImplementedException();
+        }
+
+        public void ExitEveryRule(ParserRuleContext ctx) {
+            throw new NotImplementedException();
         }
     }
 
@@ -47,7 +73,7 @@ namespace JetBrains.ReSharper.Plugins.Spring {
         }
 
         public IFile ParseFile() {
-            using (var def = Lifetimes.Define()) {
+            using (var def = Lifetimes.Lifetime.Define()) {
                 var builder = new PsiBuilder(myLexer, SpringFileNodeType.Instance, new TokenFactory(), def.Lifetime);
                 var fileMark = builder.Mark();
                 var allLexems = new MyLexer(new AntlrInputStream(myLexer.Buffer.GetText()));

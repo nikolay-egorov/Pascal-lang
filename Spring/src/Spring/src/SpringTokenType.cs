@@ -6,7 +6,6 @@ using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Text;
 using JetBrains.Util;
-using Mono.CSharp;
 
 namespace JetBrains.ReSharper.Plugins.Spring {
     class SpringTokenType : TokenNodeType {

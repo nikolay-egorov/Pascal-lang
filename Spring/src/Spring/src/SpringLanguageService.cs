@@ -1,5 +1,5 @@
 ﻿﻿using System.Collections.Generic;
-using JetBrains.Annotations;
+ using JetBrains.Annotations;
  using JetBrains.ReSharper.Daemon.SyntaxHighlighting;
  using JetBrains.ReSharper.Host.Features.SyntaxHighlighting;
 using JetBrains.ReSharper.Psi;
@@ -11,8 +11,7 @@ using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.TestFramework;
 using JetBrains.Text;
- using JetBrains.Util;
-using NUnit.Framework;
+using JetBrains.Util;
 
 namespace JetBrains.ReSharper.Plugins.Spring
 {
