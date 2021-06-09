@@ -72,6 +72,16 @@ public interface IMyParserListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitTerm([NotNull] MyParser.TermContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.setOP"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSetOP([NotNull] MyParser.SetOPContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.setOP"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSetOP([NotNull] MyParser.SetOPContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="MyParser.factor"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

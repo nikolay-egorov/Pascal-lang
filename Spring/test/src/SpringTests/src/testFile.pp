@@ -39,7 +39,7 @@
     end;  
     
     repeat  
-         X := X/2  
+         X := X**2  
     until x<10e-3;
     
     for I:=1 to 20 do  
@@ -96,6 +96,22 @@
     Char(4875);  
     Word(@Buffer);
     
+
+    W:=[mon,tue] + [wed,thu,fri]; // equals [mon,tue,wed,thu,fri]  
+    PrintDays(W);  
+    W:=[mon,tue,wed] - [wed];     // equals [mon,tue]  
+    PrintDays(W);  
+    W:=[mon,tue,wed] -[wed,thu];     // also equals [mon,tue]  
+    PrintDays(W);  
+    W:=[mon,tue,wed]*[wed,thu,fri]; // equals [wed]  
+    PrintDays(W);
+    W:=[mon,tue,wed]><[wed,thu,fri]; // equals [mon,tue,thu,fri]  
+    PrintDays(W);  
+    if [mon,tue] <= WorkWeek then  
+        Writeln('Must work on monday and tuesday');  
+    if Weekend >= [sun] then  
+        Writeln('Can rest on sunday');          
+
     
     repeat
       doHomeWork(1, 1, foo)

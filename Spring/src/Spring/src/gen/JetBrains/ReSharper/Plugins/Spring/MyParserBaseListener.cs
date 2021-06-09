@@ -85,6 +85,18 @@ public partial class MyParserBaseListener : IMyParserListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitTerm([NotNull] MyParser.TermContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.setOP"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSetOP([NotNull] MyParser.SetOPContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.setOP"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSetOP([NotNull] MyParser.SetOPContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="MyParser.factor"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

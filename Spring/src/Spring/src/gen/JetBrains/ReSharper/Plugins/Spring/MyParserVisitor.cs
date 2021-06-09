@@ -57,6 +57,12 @@ public interface IMyParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitTerm([NotNull] MyParser.TermContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="MyParser.setOP"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSetOP([NotNull] MyParser.SetOPContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="MyParser.factor"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

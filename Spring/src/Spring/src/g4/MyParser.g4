@@ -10,24 +10,29 @@ fileNode : compoundStatement EOF
 
 expression
     : simpleExpression
-    ( (EQUAL? | NOT_EQUAL? | LT? | LE? | GE? | GT? | IN?) simpleExpression )*
+    ( (EQUAL | NOT_EQUAL | LT | LE | GE | GT | IN) simpleExpression )*
     ;
 
 simpleExpression
-    : term ( (PLUS? | MINUS? | OR?) term )*
+    : setOP
+    | term ( (PLUS | MINUS | OR | XOR) term )*
     ;
 
 term
-    : (PLUS | MINUS)? factor ( (MULT? | SLASH? | DIV? | MOD? | AND?) (PLUS | MINUS)? factor )*
+    : (PLUS | MINUS)? factor (
+     (MULT | SLASH | DIV | MOD | AND | (LSHIFT2 | LSHIFT) | (RSHIFT2 | RSHIFT) | (MULT MULT)
+     ) (PLUS | MINUS)? factor )*
     ;
 
+setOP 
+    : set ((PLUS | MINUS | MULT | (GT LT) | (GT EQUAL) | (LT EQUAL)) set )*
+    ;
 
 factor
     : variable
     | functionDesignator
     | LPAREN expression RPAREN
     | unsignedConstant
-    | set
     | NOT factor
     ;
 
