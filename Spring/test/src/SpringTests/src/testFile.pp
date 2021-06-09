@@ -13,7 +13,7 @@
       
     X := X/2;  
     with data, v do begin
-            s1 := 5;
+        s1 := 5;
     end;
     
     atRes := @(3 * 5);
@@ -41,6 +41,15 @@
     repeat  
          X := X/2  
     until x<10e-3;
+    
+    for I:=1 to 20 do  
+        A[I] := I;  
+    I := PInteger(Unaligned(@A[13]))^;  
+    
+    
+    begin  
+        P := @MyProc;  
+    end;
     
     
     if foo <> 14 then
@@ -82,6 +91,11 @@
     (* This is an old style comment *)  
     {  This is a Turbo Pascal comment }  
     // This is a Delphi comment. All is ignored till the end of the line.
+    
+    Integer('A');  
+    Char(4875);  
+    Word(@Buffer);
+    
     
     repeat
       doHomeWork(1, 1, foo)

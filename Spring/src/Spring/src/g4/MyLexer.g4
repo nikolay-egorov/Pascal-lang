@@ -49,6 +49,7 @@ INTERFACE :  'interface';
 USES :  'uses' ;
 STRING  :   'string' ;
 PASS : 'pass';
+UNALIGNED : 'Unaligned';
   
 PLUS : '+';
 MINUS : '-';

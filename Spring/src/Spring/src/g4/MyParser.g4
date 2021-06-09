@@ -42,7 +42,7 @@ setContainer
 
 
 functionDesignator
-    : identifier  LPAREN parameterList? RPAREN
+    : (identifier | UNALIGNED)  LPAREN parameterList? RPAREN
     ;
 
 
