@@ -2,35 +2,10 @@ parser grammar MyParser;
 
 options { tokenVocab = MyLexer; }
 
-tokens {
-  BAD_CHARACTER
-}
- 
-identifier
-    : IDENT
-    ;
-
-label
-    : identifier 
-    | unsignedInteger
-    ;
-
-unsignedNumber
-    : unsignedInteger
-    | unsignedReal
-    ;
-
-unsignedInteger
-    : NUM_INT
-    ;
-
-unsignedReal
-    : NUM_REAL
-    ;
 
 
 // file structure 
-fileNode : compoundStatement? EOF
+fileNode : compoundStatement EOF
     ; 
 
 expression
@@ -67,7 +42,7 @@ setContainer
 
 
 functionDesignator
-    : identifier WS? LPAREN parameterList? RPAREN
+    : identifier  LPAREN parameterList? RPAREN
     ;
 
 
@@ -81,11 +56,35 @@ actualParameter
     ;
 
 
+ 
+identifier
+    : IDENT
+    ;
+
+label
+    : identifier 
+    | unsignedInteger
+    ;
+
+unsignedNumber
+    : unsignedInteger
+    | unsignedReal
+    ;
+
+unsignedInteger
+    : NUM_INT
+    ;
+
+unsignedReal
+    : NUM_REAL
+    ;
+
+
+
 
 // statements     
 compoundStatement
-    : BEGIN statement (SEMI statement)* SEMI? END
-//    : BEGIN statements SEMI? END
+    : BEGIN statements SEMI? END
     ;
 
 statement
@@ -130,7 +129,7 @@ labeledStatement
     ;
 
 assignmentStatement
-    : variable ((assignmentVariants '=') | ASSIGN) expression
+    : variable (ASSIGN | (assignmentVariants '=')) expression
     ;
 
 assignmentVariants
@@ -141,16 +140,20 @@ assignmentVariants
     ;
 
 variable
-    : ( AT identifier 
-      | AT expression
-      | identifier
-      | functionDesignator
-      )
+    : variableVariants
       ( LBRACK expression ( COMMA expression)* RBRACK
       | LBRACK2 expression ( COMMA expression)* RBRACK2
       | DOT identifier
       | POINTER
       )*
+    ;
+
+variableVariants 
+    : 
+    identifier
+    | AT expression
+    | AT identifier 
+    | functionDesignator
     ;
 
 statements
@@ -193,7 +196,7 @@ constant
     ;
     
 constantChr
-    : CHRLPAREN (unsignedInteger|identifier) RPAREN
+    : CHR LPAREN (unsignedInteger|identifier) RPAREN
     ;
 
 unsignedConstant

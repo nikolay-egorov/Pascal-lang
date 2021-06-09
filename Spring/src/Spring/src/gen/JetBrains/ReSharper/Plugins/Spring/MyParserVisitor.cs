@@ -33,36 +33,6 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IMyParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="MyParser.identifier"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitIdentifier([NotNull] MyParser.IdentifierContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="MyParser.label"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitLabel([NotNull] MyParser.LabelContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="MyParser.unsignedNumber"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitUnsignedNumber([NotNull] MyParser.UnsignedNumberContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="MyParser.unsignedInteger"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitUnsignedInteger([NotNull] MyParser.UnsignedIntegerContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="MyParser.unsignedReal"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitUnsignedReal([NotNull] MyParser.UnsignedRealContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="MyParser.fileNode"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -122,6 +92,36 @@ public interface IMyParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitActualParameter([NotNull] MyParser.ActualParameterContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="MyParser.identifier"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIdentifier([NotNull] MyParser.IdentifierContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="MyParser.label"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLabel([NotNull] MyParser.LabelContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="MyParser.unsignedNumber"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitUnsignedNumber([NotNull] MyParser.UnsignedNumberContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="MyParser.unsignedInteger"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitUnsignedInteger([NotNull] MyParser.UnsignedIntegerContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="MyParser.unsignedReal"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitUnsignedReal([NotNull] MyParser.UnsignedRealContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="MyParser.compoundStatement"/>.
 	/// </summary>
@@ -188,6 +188,12 @@ public interface IMyParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitVariable([NotNull] MyParser.VariableContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="MyParser.variableVariants"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitVariableVariants([NotNull] MyParser.VariableVariantsContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="MyParser.statements"/>.
 	/// </summary>

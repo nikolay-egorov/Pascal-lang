@@ -1,21 +1,6 @@
 lexer grammar MyLexer;
 
 
-WS  
- : 
-    ( ' '
-    |  '\t'
-    |  '\f'
-    |  (  '\r\n'  
-      |  '\r'   
-      |  '\n' 
-      )
-      {  }
-    )
-    -> channel(HIDDEN)
-  ;
-
-
 AND :  'and';
 ARRAY :  'array' ;
 BEGIN :  'begin';
@@ -48,7 +33,6 @@ OR :  'or' ;
 XOR : 'xor';
 PACKED : 'packed' ;
 PROCEDURE  :  'procedure';
-PROGRAM  :  'program';
 REAL :  'real';
 RECORD :  'record' ;
 REPEAT :   'repeat';
@@ -96,14 +80,53 @@ DOT : '.' ;
 DOTDOT : '..';
 LCURLY  : '{' ;
 RCURLY : '}' ;  
-STRING_LITERAL
-  : '\'' ('\'\'' | ~('\''))* '\''   
-  ;
+
 //BAD_CHARACTER: .;
+
+WS  
+ : 
+    ( ' '
+    |  '\t'
+    |  '\n' 
+    |  '\r\n'  
+    |  '\r'   
+    )
+    -> channel(HIDDEN)
+  ;
+
+
+SINGLE_COMMENT
+  : 
+  '//' ~[\r\n]* 
+  -> channel(HIDDEN)
+  ;
+
+fragment 
+CommentClass 
+  : COMMENT_1 
+  | COMMENT_2
+  ; 
+
+COMMENT_1 
+  : '(' '*' (CommentClass | . )*? '*' ')' 
+  -> channel(HIDDEN);
+
+COMMENT_2
+  :  '{'
+        (  ~('}') )*
+           '}'
+    -> channel(HIDDEN)
+  ;
+
+
 
 IDENT  :  ('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*   
   ;
 
+
+STRING_LITERAL
+  : '\'' ('\'\'' | ~('\''))* '\''   
+  ;
 
 // force to separate lexer and parser 
 NUM_INT : 
@@ -168,31 +191,7 @@ EXPONENT
 
 fragment 
 FLOATING_P 
-  : 
-  '.'  ('0'..'9')+ (EXPONENT)?
+  :   '.'  ('0'..'9')+ (EXPONENT)?
   ;
 
-
-SINGLE_COMMENT
-  : 
-  '//' ~[\r\n]* 
-  -> channel(HIDDEN)
-  ;
-
-fragment 
-CommentClass 
-  : COMMENT_1 
-  | COMMENT_2
-  ; 
-
-COMMENT_1 
-  : '(' '*' (CommentClass | . )*? '*' ')' 
-  -> channel(HIDDEN);
-
-COMMENT_2
-  :  '{'
-        (  ~('}') )*
-           '}'
-    -> channel(HIDDEN)
-  ;
 

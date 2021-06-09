@@ -32,56 +32,6 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IMyParserListener : IParseTreeListener {
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.identifier"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterIdentifier([NotNull] MyParser.IdentifierContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.identifier"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitIdentifier([NotNull] MyParser.IdentifierContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.label"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterLabel([NotNull] MyParser.LabelContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.label"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitLabel([NotNull] MyParser.LabelContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.unsignedNumber"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterUnsignedNumber([NotNull] MyParser.UnsignedNumberContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.unsignedNumber"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitUnsignedNumber([NotNull] MyParser.UnsignedNumberContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.unsignedInteger"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterUnsignedInteger([NotNull] MyParser.UnsignedIntegerContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.unsignedInteger"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitUnsignedInteger([NotNull] MyParser.UnsignedIntegerContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.unsignedReal"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterUnsignedReal([NotNull] MyParser.UnsignedRealContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.unsignedReal"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitUnsignedReal([NotNull] MyParser.UnsignedRealContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="MyParser.fileNode"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -181,6 +131,56 @@ public interface IMyParserListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitActualParameter([NotNull] MyParser.ActualParameterContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.identifier"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIdentifier([NotNull] MyParser.IdentifierContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.identifier"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIdentifier([NotNull] MyParser.IdentifierContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.label"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLabel([NotNull] MyParser.LabelContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.label"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLabel([NotNull] MyParser.LabelContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.unsignedNumber"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUnsignedNumber([NotNull] MyParser.UnsignedNumberContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.unsignedNumber"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUnsignedNumber([NotNull] MyParser.UnsignedNumberContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.unsignedInteger"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUnsignedInteger([NotNull] MyParser.UnsignedIntegerContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.unsignedInteger"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUnsignedInteger([NotNull] MyParser.UnsignedIntegerContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.unsignedReal"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUnsignedReal([NotNull] MyParser.UnsignedRealContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.unsignedReal"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUnsignedReal([NotNull] MyParser.UnsignedRealContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="MyParser.compoundStatement"/>.
 	/// </summary>
@@ -291,6 +291,16 @@ public interface IMyParserListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitVariable([NotNull] MyParser.VariableContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.variableVariants"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterVariableVariants([NotNull] MyParser.VariableVariantsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.variableVariants"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitVariableVariants([NotNull] MyParser.VariableVariantsContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="MyParser.statements"/>.
 	/// </summary>

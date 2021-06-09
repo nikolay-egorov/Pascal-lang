@@ -37,66 +37,6 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 [System.CLSCompliant(false)]
 public partial class MyParserBaseListener : IMyParserListener {
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.identifier"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterIdentifier([NotNull] MyParser.IdentifierContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.identifier"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitIdentifier([NotNull] MyParser.IdentifierContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.label"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterLabel([NotNull] MyParser.LabelContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.label"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitLabel([NotNull] MyParser.LabelContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.unsignedNumber"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterUnsignedNumber([NotNull] MyParser.UnsignedNumberContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.unsignedNumber"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitUnsignedNumber([NotNull] MyParser.UnsignedNumberContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.unsignedInteger"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterUnsignedInteger([NotNull] MyParser.UnsignedIntegerContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.unsignedInteger"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitUnsignedInteger([NotNull] MyParser.UnsignedIntegerContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="MyParser.unsignedReal"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterUnsignedReal([NotNull] MyParser.UnsignedRealContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="MyParser.unsignedReal"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitUnsignedReal([NotNull] MyParser.UnsignedRealContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="MyParser.fileNode"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -216,6 +156,66 @@ public partial class MyParserBaseListener : IMyParserListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitActualParameter([NotNull] MyParser.ActualParameterContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.identifier"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterIdentifier([NotNull] MyParser.IdentifierContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.identifier"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitIdentifier([NotNull] MyParser.IdentifierContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.label"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLabel([NotNull] MyParser.LabelContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.label"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLabel([NotNull] MyParser.LabelContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.unsignedNumber"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterUnsignedNumber([NotNull] MyParser.UnsignedNumberContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.unsignedNumber"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitUnsignedNumber([NotNull] MyParser.UnsignedNumberContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.unsignedInteger"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterUnsignedInteger([NotNull] MyParser.UnsignedIntegerContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.unsignedInteger"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitUnsignedInteger([NotNull] MyParser.UnsignedIntegerContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.unsignedReal"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterUnsignedReal([NotNull] MyParser.UnsignedRealContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.unsignedReal"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitUnsignedReal([NotNull] MyParser.UnsignedRealContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="MyParser.compoundStatement"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -348,6 +348,18 @@ public partial class MyParserBaseListener : IMyParserListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitVariable([NotNull] MyParser.VariableContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="MyParser.variableVariants"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterVariableVariants([NotNull] MyParser.VariableVariantsContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="MyParser.variableVariants"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitVariableVariants([NotNull] MyParser.VariableVariantsContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="MyParser.statements"/>.
 	/// <para>The default implementation does nothing.</para>

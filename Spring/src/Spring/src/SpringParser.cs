@@ -33,6 +33,9 @@ namespace JetBrains.ReSharper.Plugins.Spring {
 
         public void SyntaxError(TextWriter output, IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine,
             string msg, RecognitionException e) {
+            // if (line == 1 && charPositionInLine == 5) {
+            //     return;
+            // }
             myBuilder.Error($"Syntax error on {line}:{charPositionInLine}, token {offendingSymbol}, as: {msg}");
         }
     }
@@ -92,7 +95,8 @@ namespace JetBrains.ReSharper.Plugins.Spring {
                 var builder = new PsiBuilder(myLexer, SpringFileNodeType.Instance, new TokenFactory(), def.Lifetime);
                 var fileMark = builder.Mark();
                 var allLexems = new MyLexer(new AntlrInputStream(myLexer.Buffer.GetText()));
-                var tokenStream = new BufferedTokenStream(allLexems);
+                // https://stackoverflow.com/questions/42253229/antlr4-using-hidden-channel-causes-errors-while-using-skip-does-not
+                var tokenStream = new CommonTokenStream(allLexems); // NEVER EVER USE BufferedStream if hidden channel 
                 var customParser = new MyParser(tokenStream);
                 customParser.AddErrorListener(new SyntaxErrorListener(builder));
                 customParser.AddParseListener(new ParsingListener(builder, new LinkedList<int>()));
