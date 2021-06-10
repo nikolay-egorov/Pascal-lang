@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using ICSharpCode.NRefactory.CSharp;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 using JetBrains.Application.Settings;
+using JetBrains.DataFlow;
 using JetBrains.DocumentModel;
 using JetBrains.Lifetimes;
 using JetBrains.ProjectModel;
@@ -21,39 +23,95 @@ using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.TreeBuilder;
 using JetBrains.Text;
 
-namespace JetBrains.ReSharper.Plugins.Spring
-{
-    internal class SpringParser : IParser
-    {
+namespace JetBrains.ReSharper.Plugins.Spring {
+    internal class SyntaxErrorListener : IAntlrErrorListener<IToken> {
+        private readonly PsiBuilder myBuilder;
+
+        public SyntaxErrorListener(PsiBuilder myBuilder) {
+            this.myBuilder = myBuilder;
+        }
+
+        public void SyntaxError(TextWriter output, IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine,
+            string msg, RecognitionException e) {
+            // if (line == 1 && charPositionInLine == 5) {
+            //     return;
+            // }
+            myBuilder.Error($"Syntax error on {line}:{charPositionInLine}, token {offendingSymbol}, as: {msg}");
+        }
+    }
+
+
+    internal class ParsingListener : IParseTreeListener {
+        private readonly PsiBuilder myBuilder;
+        private readonly LinkedList<int> myMarks;
+
+        public ParsingListener(PsiBuilder myBuilder, LinkedList<int> myMarks) {
+            this.myBuilder = myBuilder;
+            this.myMarks = myMarks;
+        }
+
+        private void tryConsume() {
+            while (!myBuilder.Eof()) {
+                var nextToken = myBuilder.AdvanceLexer();
+                if (nextToken.IsComment || nextToken.IsWhitespace) {
+                    continue;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+
+        public void VisitTerminal(ITerminalNode node) {
+            tryConsume();
+        }
+
+        public void VisitErrorNode(IErrorNode node) {
+            tryConsume();
+        }
+
+        public void EnterEveryRule(ParserRuleContext ctx) {
+            var currMark = myBuilder.Mark();
+            myMarks.AddFirst(currMark);
+        }
+
+        public void ExitEveryRule(ParserRuleContext ctx) {
+            var prevMark = myMarks.First;
+            myMarks.RemoveFirst();
+            myBuilder.Done(prevMark.Value, SpringCompositeNodeType.BLOCK, null);
+        }
+    }
+
+
+    internal class SpringParser : IParser {
         private readonly ILexer myLexer;
 
-        public SpringParser(ILexer lexer)
-        {
+        public SpringParser(ILexer lexer) {
             myLexer = lexer;
         }
 
-        public IFile ParseFile()
-        {
-            using (var def = Lifetime.Define())
-            {
+        public IFile ParseFile() {
+            using (var def = Lifetimes.Lifetime.Define()) {
                 var builder = new PsiBuilder(myLexer, SpringFileNodeType.Instance, new TokenFactory(), def.Lifetime);
                 var fileMark = builder.Mark();
-
-                ParseBlock(builder);
-
+                var allLexems = new MyLexer(new AntlrInputStream(myLexer.Buffer.GetText()));
+                // https://stackoverflow.com/questions/42253229/antlr4-using-hidden-channel-causes-errors-while-using-skip-does-not
+                var tokenStream = new CommonTokenStream(allLexems); // NEVER EVER USE BufferedStream if hidden channel 
+                var customParser = new MyParser(tokenStream);
+                customParser.AddErrorListener(new SyntaxErrorListener(builder));
+                customParser.AddParseListener(new ParsingListener(builder, new LinkedList<int>()));
+                customParser.fileNode();
+                
                 builder.Done(fileMark, SpringFileNodeType.Instance, null);
-                var file = (IFile)builder.BuildTree();
+                var file = (IFile) builder.BuildTree();
                 return file;
             }
         }
 
-        private void ParseBlock(PsiBuilder builder)
-        {
-            while (!builder.Eof())
-            {
+        private void ParseBlock(PsiBuilder builder) {
+            while (!builder.Eof()) {
                 var tt = builder.GetTokenType();
-                if (tt == CSharpTokenType.LBRACE)
-                {
+                if (tt == CSharpTokenType.LBRACE) {
                     var start = builder.Mark();
                     builder.AdvanceLexer();
                     ParseBlock(builder);
@@ -62,47 +120,42 @@ namespace JetBrains.ReSharper.Plugins.Spring
                         builder.Error("Expected '}'");
                     else
                         builder.AdvanceLexer();
-                    
+
                     builder.Done(start, SpringCompositeNodeType.BLOCK, null);
                 }
                 else if (tt == CSharpTokenType.RBRACE)
                     return;
                 else builder.AdvanceLexer();
-                
             }
         }
     }
 
     [DaemonStage]
-    class SpringDaemonStage : DaemonStageBase<SpringFile>
-    {
-        protected override IDaemonStageProcess CreateDaemonProcess(IDaemonProcess process, DaemonProcessKind processKind, SpringFile file,
-            IContextBoundSettingsStore settingsStore)
-        {
+    class SpringDaemonStage : DaemonStageBase<SpringFile> {
+        protected override IDaemonStageProcess CreateDaemonProcess(IDaemonProcess process,
+            DaemonProcessKind processKind, SpringFile file,
+            IContextBoundSettingsStore settingsStore) {
             return new SpringDaemonProcess(process, file);
         }
 
-        internal class SpringDaemonProcess : IDaemonStageProcess
-        {
+        internal class SpringDaemonProcess : IDaemonStageProcess {
             private readonly SpringFile myFile;
-            public SpringDaemonProcess(IDaemonProcess process, SpringFile file)
-            {
+
+            public SpringDaemonProcess(IDaemonProcess process, SpringFile file) {
                 myFile = file;
                 DaemonProcess = process;
             }
 
-            public void Execute(Action<DaemonStageResult> committer)
-            {
+            public void Execute(Action<DaemonStageResult> committer) {
                 var highlightings = new List<HighlightingInfo>();
-                foreach (var treeNode in myFile.Descendants())
-                {
-                    if (treeNode is PsiBuilderErrorElement error)
-                    {
+                foreach (var treeNode in myFile.Descendants()) {
+                    if (treeNode is PsiBuilderErrorElement error) {
                         var range = error.GetDocumentRange();
-                        highlightings.Add(new HighlightingInfo(range, new CSharpSyntaxError(error.ErrorDescription, range)));
+                        highlightings.Add(new HighlightingInfo(range,
+                            new CSharpSyntaxError(error.ErrorDescription, range)));
                     }
                 }
-                
+
                 var result = new DaemonStageResult(highlightings);
                 committer(result);
             }
@@ -110,39 +163,32 @@ namespace JetBrains.ReSharper.Plugins.Spring
             public IDaemonProcess DaemonProcess { get; }
         }
 
-        protected override IEnumerable<SpringFile> GetPsiFiles(IPsiSourceFile sourceFile)
-        {
-            yield return (SpringFile)sourceFile.GetDominantPsiFile<SpringLanguage>();
+        protected override IEnumerable<SpringFile> GetPsiFiles(IPsiSourceFile sourceFile) {
+            yield return (SpringFile) sourceFile.GetDominantPsiFile<SpringLanguage>();
         }
-    } 
+    }
 
-    internal class TokenFactory : IPsiBuilderTokenFactory
-    {
-        public LeafElementBase CreateToken(TokenNodeType tokenNodeType, IBuffer buffer, int startOffset, int endOffset)
-        {
+    internal class TokenFactory : IPsiBuilderTokenFactory {
+        public LeafElementBase CreateToken(TokenNodeType tokenNodeType, IBuffer buffer, int startOffset,
+            int endOffset) {
             return tokenNodeType.Create(buffer, new TreeOffset(startOffset), new TreeOffset(endOffset));
         }
     }
 
-    [ProjectFileType(typeof (SpringProjectFileType))]
-    public class SelectEmbracingConstructProvider : ISelectEmbracingConstructProvider
-    {
-        public bool IsAvailable(IPsiSourceFile sourceFile)
-        {
+    [ProjectFileType(typeof(SpringProjectFileType))]
+    public class SelectEmbracingConstructProvider : ISelectEmbracingConstructProvider {
+        public bool IsAvailable(IPsiSourceFile sourceFile) {
             return sourceFile.LanguageType.Is<SpringProjectFileType>();
         }
 
-        public ISelectedRange GetSelectedRange(IPsiSourceFile sourceFile, DocumentRange documentRange)
-        {
+        public ISelectedRange GetSelectedRange(IPsiSourceFile sourceFile, DocumentRange documentRange) {
             var file = (SpringFile) sourceFile.GetDominantPsiFile<SpringLanguage>();
             var node = file.FindNodeAt(documentRange);
             return new SpringTreeNodeSelection(file, node);
         }
 
-        public class SpringTreeNodeSelection : TreeNodeSelection<SpringFile>
-        {
-            public SpringTreeNodeSelection(SpringFile fileNode, ITreeNode node) : base(fileNode, node)
-            {
+        public class SpringTreeNodeSelection : TreeNodeSelection<SpringFile> {
+            public SpringTreeNodeSelection(SpringFile fileNode, ITreeNode node) : base(fileNode, node) {
             }
 
             public override ISelectedRange Parent => new SpringTreeNodeSelection(FileNode, TreeNode.Parent);
